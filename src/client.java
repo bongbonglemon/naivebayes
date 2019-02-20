@@ -11,7 +11,6 @@ public class client {
         BufferedReader br;
         String[] topicsList = {"gis","security", "photo", "mathematica", "unix", "wordpress", "scifi", "electronics", "android", "apple"};
         singleDataEntry[] arr = null;
-        String[] testQuestions = null;
         String fileName = "/Users/soymilk/Downloads/testcases/input.txt";
         File file = new File(fileName);
         Scanner input;
@@ -52,7 +51,6 @@ public class client {
                 input = new Scanner(exam);
                 int numberOfEntries = input.nextInt();
                 input.nextLine();
-                testQuestions = new String[numberOfEntries];
                 for(int i = 0; i < numberOfEntries; i++){
                     System.out.println(utils.classify(extractQuestionFromJson(input.nextLine()),topicsList));
                 }
@@ -65,9 +63,6 @@ public class client {
             option.nextLine();
             System.out.println(utils.classify(option.nextLine(), topicsList));
 
-
-
-            //System.out.println(utils.classify(ownQuestion, topicsList));
         }
 
 

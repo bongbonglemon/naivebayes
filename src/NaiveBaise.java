@@ -14,18 +14,6 @@ public class NaiveBaise {
     private HashMap<String, Double> androidMap = new HashMap<String, Double>();
     private HashMap<String, Double> appleMap = new HashMap<String, Double>();
 
-    List<singleDataEntry> gisSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> securitySubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> photoSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> mathematicaSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> unixSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> wordpressSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> scificSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> electronicsSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> androidSubset = new ArrayList<singleDataEntry>();
-    List<singleDataEntry> appleSubset = new ArrayList<singleDataEntry>();
-
-
     // Collection of all tokens in training data
     HashMap<String, Integer> Vocabulary = new HashMap<>();
 
@@ -52,9 +40,7 @@ public class NaiveBaise {
             // find singleDataEntry for which .getTopic == topic
             for (singleDataEntry entry : set) {
                 if (entry.getTopic().equals(topic)) {
-                    // store in docs for this topic, purpose is to find numberOfThisTopic/numberOfTotalTopics
-                    // storeByTopic(entry, topic);
-                    //countOfDocumentByTopic++;
+
                     textForTopic += entry.getQuestion() + " ";
                 }
             }
@@ -66,22 +52,17 @@ public class NaiveBaise {
             // get number of occurrence of each word in text
             for (String w : allWordsInText) {
 
-                wordOccurrenceMap.compute(w, (k, v) -> (v == null) ? 1 : v + 1); // !error nothing added
+                wordOccurrenceMap.compute(w, (k, v) -> (v == null) ? 1 : v + 1);
 
             }
 
-            // TODO: use m-estimate
-            // double probabilityOfTopic = countOfDocumentByTopic/set.length;
-
-            for (String w : Vocabulary.keySet()) { //problem
+            for (String w : Vocabulary.keySet()) {
 
                 // number of times word occurs in text
 
-                double numberOfWordInText = (wordOccurrenceMap.get(w)==null)?0:wordOccurrenceMap.get(w); // nk, seems too big
+                double numberOfWordInText = (wordOccurrenceMap.get(w)==null)?0:wordOccurrenceMap.get(w);
 
-
-
-                double probabilityOfWordGivenClass = (numberOfWordInText + 1) / (allWordsInTextCount + Vocabulary.keySet().size()); // ROOT PROBLEM: TOO SMALL
+                double probabilityOfWordGivenClass = (numberOfWordInText + 1) / (allWordsInTextCount + Vocabulary.keySet().size());
 
                 storeInKnowledgeBase(topic, w, probabilityOfWordGivenClass);
 
@@ -91,12 +72,6 @@ public class NaiveBaise {
 
 
         }
-
-        //Troubleshoot efficacy of tokenizer
-        //for(String token:Vocabulary.keySet()){
-        //  System.out.println(token);
-        //}
-        //
 
     }
 
@@ -119,7 +94,7 @@ public class NaiveBaise {
 
             for(String word : wordsThatAlsoAppearInVocab){
 
-            probabilityIsThisTopic = probabilityIsThisTopic * collectFromKnowledgeBase(topic, word); // !ERROR: FILLED WITH ZEROES
+            probabilityIsThisTopic = probabilityIsThisTopic * collectFromKnowledgeBase(topic, word);
 
 
             }
@@ -134,7 +109,7 @@ public class NaiveBaise {
 
             if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
             {
-                maxEntry = entry; // !ERROR: keep returning first one because probabilities are 0
+                maxEntry = entry;
             }
 
         }
@@ -226,43 +201,5 @@ public class NaiveBaise {
 
         return 0;
     }
-/*
-    public void storeByTopic(singleDataEntry entry, String topic){
 
-        switch(topic){
-            case "electronics":
-                electronicsSubset.add(entry);
-                break;
-            case "mathematica":
-                mathematicaSubset.add(entry);
-                break;
-            case "gis":
-                gisSubset.add(entry);
-                break;
-            case "security":
-                securitySubset.add(entry);
-                break;
-            case "scifi":
-                scificSubset.add(entry);
-                break;
-            case "photo":
-                photoSubset.add(entry);
-                break;
-            case "unix":
-                unixSubset.add(entry);
-                break;
-            case "android":
-                androidSubset.add(entry);
-                break;
-            case "apple":
-                appleSubset.add(entry);
-                break;
-            case "wordpress":
-                wordpressSubset.add(entry);
-                break;
-
-        }
-
-    }
-*/
 }
